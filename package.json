@@ -1,0 +1,27 @@
+{
+  "name": "commlink-operations",
+  "version": "1.0.0",
+  "description": "CommLink Technician Operations Monitoring System",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend/*",
+    "shared/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "concurrently \"npm run dev:api-gateway\" \"npm run dev:technician\" \"npm run dev:ticket\" \"npm run dev:dispatch\" \"npm run dev:weather\"",
+    "dev:api-gateway": "cd backend/api-gateway && npm run dev",
+    "dev:technician": "cd backend/technician-service && npm run dev",
+    "dev:ticket": "cd backend/ticket-service && npm run dev",
+    "dev:dispatch": "cd backend/dispatch-service && npm run dev",
+    "dev:weather": "cd backend/weather-service && npm run dev",
+    "install:all": "npm install && npm run install:frontend && npm run install:backend",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend/api-gateway && npm install && cd ../technician-service && npm install && cd ../ticket-service && npm install && cd ../dispatch-service && npm install && cd ../weather-service && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

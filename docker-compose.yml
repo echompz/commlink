@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # API Gateway
+  api-gateway:
+    build:
+      context: ./backend/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - TECHNICIAN_SERVICE_URL=http://technician-service:3001
+      - TICKET_SERVICE_URL=http://ticket-service:3002
+      - DISPATCH_SERVICE_URL=http://dispatch-service:3003
+      - WEATHER_SERVICE_URL=http://weather-service:3004
+    depends_on:
+      - technician-service
+      - ticket-service
+      - dispatch-service
+      - weather-service
+    networks:
+      - commlink-network
+
+  # Technician Service
+  technician-service:
+    build:
+      context: ./backend/technician-service
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+    networks:
+      - commlink-network
+
+  # Ticket Service
+  ticket-service:
+    build:
+      context: ./backend/ticket-service
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+    networks:
+      - commlink-network
+
+  # Dispatch Service
+  dispatch-service:
+    build:
+      context: ./backend/dispatch-service
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      - PORT=3003
+    networks:
+      - commlink-network
+
+  # Weather Service
+  weather-service:
+    build:
+      context: ./backend/weather-service
+      dockerfile: Dockerfile
+    ports:
+      - "3004:3004"
+    environment:
+      - PORT=3004
+    networks:
+      - commlink-network
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3000/api
+    depends_on:
+      - api-gateway
+    networks:
+      - commlink-network
+
+networks:
+  commlink-network:
+    driver: bridge
+
+# Made with Bob

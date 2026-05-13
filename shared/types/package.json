@@ -1,0 +1,13 @@
+{
+  "name": "@commlink/types",
+  "version": "1.0.0",
+  "description": "Shared TypeScript types for CommLink services",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
